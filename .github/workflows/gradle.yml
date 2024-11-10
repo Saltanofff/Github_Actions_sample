@@ -9,8 +9,8 @@ on:
 jobs:
   build:
     name: build_job
-    
-    runs-on: ${{matrix}}
+
+    runs-on: ${{matrix.os}}
     strategy: 
       matrix: 
        os: [ubuntu-latest, windows-latest, macOS-latest]
@@ -28,4 +28,3 @@ jobs:
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
-
