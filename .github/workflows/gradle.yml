@@ -10,11 +10,8 @@ jobs:
   build:
     name: build_job
 
-    runs-on: ${{matrix.os}}
-    strategy: 
-      matrix: 
-       os: [ubuntu-latest, windows-latest, macOS-latest]
-
+    runs-on: ubuntu-latest
+  
     steps:
     - uses: actions/checkout@v4
       
@@ -28,3 +25,12 @@ jobs:
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
+
+    - name: Build and Push Docker Image
+      uses: cloudposse/github-action-docker-build-push@main
+      with:
+        registry: registry.hub.docker.com
+        repository: freemanoff/demo
+        login: "${{ secrets.DOCKERHUB_USERNAME }}"
+        password: "${{ secrets.DOCKERHUB_PASSWORD }}"
+        platforms: linux/amd64,linux/arm64
